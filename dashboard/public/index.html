@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoML Experiment Pilot Dashboard</title>
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js for charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <div class="app-container">
+    <header class="app-header">
+      <div class="header-logo">
+        <span class="logo-icon">🚀</span>
+        <div>
+          <h1>ML Experiment Pilot</h1>
+          <p class="subtitle">AI Operator Dashboard • Rules Engine Interface</p>
+        </div>
+      </div>
+      <div class="header-controls card">
+        <div class="control-group">
+          <label for="baselineInput">Baseline Metric</label>
+          <input type="number" id="baselineInput" step="0.01" value="0.35">
+        </div>
+        <div class="control-group">
+          <label for="evalSizeInput">Eval Set Size</label>
+          <input type="number" id="evalSizeInput" value="300">
+        </div>
+        <button id="saveConfigBtn" class="btn btn-secondary">Apply Settings</button>
+      </div>
+    </header>
+
+    <main class="dashboard-grid">
+      <!-- Left sidebar: Run list -->
+      <section class="sidebar-panel card">
+        <div class="panel-header">
+          <h2>Experiment Sweeps</h2>
+          <span class="badge badge-info" id="runCountBadge">0 Runs</span>
+        </div>
+        <div class="run-list" id="runList">
+          <div class="empty-state">No sweeps logged yet. Run a template file in `library/` to begin.</div>
+        </div>
+      </section>
+
+      <!-- Center: Detailed View -->
+      <section class="main-panel">
+        <!-- Overview stats -->
+        <div class="stats-row">
+          <div class="stat-card card">
+            <span class="stat-label">Active Sweeps</span>
+            <span class="stat-val" id="statActive">0</span>
+          </div>
+          <div class="stat-card card">
+            <span class="stat-label">Completed / Converged</span>
+            <span class="stat-val text-success" id="statCompleted">0</span>
+          </div>
+          <div class="stat-card card">
+            <span class="stat-label">Killed / Overfitted</span>
+            <span class="stat-val text-danger" id="statKilled">0</span>
+          </div>
+          <div class="stat-card card">
+            <span class="stat-label">Suspended Fails</span>
+            <span class="stat-val text-warning" id="statSuspended">0</span>
+          </div>
+        </div>
+
+        <!-- Detail card -->
+        <div class="detail-container" id="detailContainer" style="display: none;">
+          <div class="card detail-header-card">
+            <div class="detail-title-row">
+              <div>
+                <h2 id="detailRunName">gbt-12</h2>
+                <p id="detailModelType" class="model-tech">Gradient Boosted Trees (Simplicity Class 2)</p>
+              </div>
+              <span class="badge" id="detailStatusBadge">RUNNING</span>
+            </div>
+            
+            <div class="params-grid" id="detailParams">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Chart & Recommendations -->
+          <div class="visuals-grid">
+            <div class="card chart-card">
+              <h3>Learning Curve</h3>
+              <div class="chart-container">
+                <canvas id="lossChart"></canvas>
+              </div>
+            </div>
+
+            <div class="card recommendations-card">
+              <h3>Operator Decisions</h3>
+              <div class="triage-status-alert" id="triageAlertBox">
+                <div class="alert-header">
+                  <span id="triageAlertIcon">⚙️</span>
+                  <strong id="triageAlertTitle">Monitoring Run</strong>
+                </div>
+                <p id="triageAlertReason">Run is currently training. Telemetry reports will generate recommendations based on rules.md.</p>
+                <div class="badge badge-rule" id="triageAlertRule">Rule 2.2 / Default</div>
+              </div>
+              <div class="recommendation-prescription card" id="prescriptionBox">
+                <h4>Prescribed Action</h4>
+                <p id="prescriptionText">Keep monitoring training loop.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telemetry Table -->
+          <div class="card table-card">
+            <h3>Telemetry Logs (Checkpoints)</h3>
+            <div class="table-wrapper">
+              <table class="telemetry-table">
+                <thead>
+                  <tr>
+                    <th>Checkpoint / Epoch</th>
+                    <th>Train Loss</th>
+                    <th>Val Loss</th>
+                    <th>Val Metric</th>
+                    <th>Learning Rate</th>
+                    <th>Triage Rule Verdict</th>
+                  </tr>
+                </thead>
+                <tbody id="telemetryTableBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="empty-state-large card" id="emptyDetailState">
+          <div class="empty-icon">📊</div>
+          <h3>No Sweep Selected</h3>
+          <p>Click on one of the sweeps in the left sidebar to view real-time learning curves, metrics, and Auto-ML operator recommendations.</p>
+        </div>
+
+        <!-- Phase 3 Promotion Verdict Section -->
+        <div class="card promotion-card">
+          <div class="promotion-header">
+            <div>
+              <h3>Phase 3: Model Promotion Verdict</h3>
+              <p class="subtitle">Evaluate all completed sweeps against baseline thresholds and simplicity rules</p>
+            </div>
+            <button id="generateVerdictBtn" class="btn btn-primary">Generate Final Verdict</button>
+          </div>
+
+          <div class="verdict-results" id="verdictResults" style="display: none;">
+            <div class="verdict-banner" id="verdictBanner">
+              <span class="verdict-title" id="verdictTitle">PROMOTED</span>
+              <span class="verdict-rule-tag" id="verdictRuleTag">Rule 3.2</span>
+            </div>
+            <div class="verdict-details">
+              <div class="verdict-message card">
+                <h4>Operator Decision Explanation</h4>
+                <p id="verdictMessageText">Winner selected based on accuracy and parameters.</p>
+              </div>
+              <div class="verdict-action card">
+                <h4>Prescribed Next Action</h4>
+                <p id="verdictActionText">Deploy model to production.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    <p>AutoML Experiment Pilot • Powered by Google DeepMind Gemini Pair Programming</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
