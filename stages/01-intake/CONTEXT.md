@@ -22,6 +22,7 @@ Collect the researcher's problem description, assess skill level, conduct a lite
 4. Conduct a literature review -- search for the best-performing model architecture for the stated problem type and dataset characteristics; identify the top candidate from recent research
 5. Check whether a matching template exists in `../../library/`; if not, write `../../library/[model]-template.py` following the integration checklist in `library/README.md` before continuing
 6. Write `output/problem-brief.md` including the literature-selected model as the primary candidate
+7. Once the problem brief contains the required information, immediately hand off to Stage 02; do not wait for researcher approval or ask whether to continue.
 
 ## Outputs
 

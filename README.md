@@ -84,8 +84,9 @@ This opens an interactive dialog where you add `Bash`, `Edit`, and `Write` to th
     *   `npm install` inside the `dashboard/` directory.
     *   **No NVIDIA GPU?** Apple Silicon Macs train locally on the built-in GPU (MPS), and AMD GPUs on Linux train locally through ROCm. Anything else -- AMD on Windows, Intel GPUs, or no GPU at all -- switches to Colab mode, and the agent tells you why: it installs Playwright, opens a Chromium window for you to log in to your Google account once, then drives Colab headlessly -- writing, running, and reading training code for you exactly as if it were local.
 3.  **Tell the agent to `run dashboard`:**
-    The agent will launch the Node.js telemetry dashboard server in the background. Once running, you can open `http://localhost:3000` to monitor training runs and sweeps in real-time.
-4.  **Tell the agent to `verify`:**
+    The agent will launch the Node.js telemetry dashboard server in the background. Once running, you can open `http://localhost:3000` to monitor training runs and sweeps in real-time.    - The top-right dashboard settings are:
+      - **Baseline Metric:** the reference score used to compare each candidate model against a trivial or baseline performance level. The operator uses this value to assess whether a model is meaningfully better than the baseline.
+      - **Eval Set Size:** the effective number of evaluation examples used when the dashboard computes the promotion verdict. It helps the dashboard estimate whether the reported improvement is statistically reliable for the chosen metric.4.  **Tell the agent to `verify`:**
     The agent will run verification audits automatically to check your PyTorch GPU support and test the tracker's connection to the dashboard server.
 
 Once setup is complete, you can begin your machine learning experiments simply by describing your research problem and dataset profile directly to the agent.

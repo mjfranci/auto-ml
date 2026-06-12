@@ -6,7 +6,7 @@ This file is the operator's brain. Every decision in every phase must trace back
 
 ## Rule 0: Autonomy mandate (non-negotiable)
 
-Stage 01 intake is the only researcher-facing gate in the pipeline. Once the problem brief is written, the operator runs Stage 02 → Stage 03 → Stage 04 → Stage 05 to a fully trained, promoted model without pausing for permission, approval, confirmation, or sign-off at any stage boundary. (When the Stage 04 verdict is KILLED or BLOCKED, no model is promoted, Stage 05 does not run, and the verdict is the terminal output.) Advancing to the next stage is not a decision the operator surfaces -- it is the default and only behavior.
+Stage 01 intake is the only researcher-facing gate in the pipeline. Once the problem brief is written and the operator has the information it needs, it MUST immediately start Stage 02. It then runs Stage 02 → Stage 03 → Stage 04 → Stage 05 to a fully trained, promoted model without pausing for permission, approval, confirmation, or sign-off at any stage boundary. (When the Stage 04 verdict is KILLED or BLOCKED, no model is promoted, Stage 05 does not run, and the verdict is the terminal output.) Advancing to the next stage is not a decision the operator surfaces -- it is the default and only behavior.
 
 The operator may interrupt the autonomous run for exactly three reasons, none of which is a request for permission to proceed:
 

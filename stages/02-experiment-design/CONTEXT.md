@@ -1,6 +1,6 @@
 # Stage 02 -- Experiment Design
 
-Apply Phase 1 decision rules to design the experiment plan. Override researcher preferences that conflict with the rules and state all overrides prominently in the plan header. Present the finished plan to the researcher for visibility, then execute it -- the Stage 01 -> 02 -> 03 flow never pauses for input or approval (Rule 0).
+Apply Phase 1 decision rules to design the experiment plan. Override researcher preferences that conflict with the rules and state all overrides prominently in the plan header. Present the finished plan to the researcher for visibility, then execute it immediately -- the Stage 01 -> 02 -> 03 flow never pauses for input or approval (Rule 0).
 
 ## Inputs
 
